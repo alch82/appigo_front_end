@@ -1,0 +1,20 @@
+<input class="form-control"
+    type="text"
+    [(ngModel)]="inputText"
+    placeholder="Create a tag"
+    (keyup.enter)="createTag();"
+    #tagNameInput />
+
+<div class="tag-sort-toggle" [ngModel]="shouldSortAlphabetically" ngbRadioGroup (ngModelChange)="sortTypeSelected($event)">
+    <label class="btn btn-default btn-white btn-size-xs"><input type="radio" [value]="true"> <span>Alphabetical</span></label>
+    <label class="btn btn-default btn-white btn-size-xs"><input type="radio" [value]="false"> <span>By popularity</span></label>
+</div>
+
+<div class="available-tags" *ngFor='let tagInfo of allTags'>
+    <i class="fa fa-fw"
+        [ngClass]="{'fa-square-o':!isTagSelected(tagInfo.tag), 'fa-check-square-o':isTagSelected(tagInfo.tag)}"
+        (click)="selectTag(tagInfo.tag)"></i>
+    <span class="tag-name">{{tagInfo.tag.name}}</span>
+    <span>{{tagInfo.count}}</span>
+    <i class="fa fa-fw fa-times" (click)="deleteTag(tagInfo.tag)"></i>
+</div>

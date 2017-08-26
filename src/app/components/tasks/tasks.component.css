@@ -1,0 +1,172 @@
+/**
+  * Task container
+  */
+:host {
+    height: 100%;
+    padding: 0;
+    display: block;
+    position: relative;
+    z-index: 30;
+    background-color: #fff;
+    box-shadow: -2px 0 6px -4px rgba(0,0,0,0.4);
+}
+
+.task-list-container {
+    top: 0;
+    left: 0;
+    position: relative;
+    transition: left 0.25s ease-in-out, opacity 0.3s ease-in;
+}
+
+:host.list-active .task-list-container {
+    left: 0;
+    opacity: 1
+}
+
+:host.list-active .task-edit-container {
+    left: 100%;
+    opacity: 0
+}
+
+:host.edit-active .task-list-container {
+    left: -100%;
+    opacity: 0
+}
+
+:host.edit-active .task-edit-container {
+    left: 0;
+    opacity: 1
+}
+
+.ps-content {
+    padding-bottom: 15px;
+}
+
+.task-section-title {
+    padding: 4px 15px;
+    text-transform: uppercase;
+    color: #a2a2a2;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background-color: #f5f5f5;
+}
+
+.task-section {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+}
+
+.st-container {
+    position: relative;
+}
+
+.st-pusher {
+    position: relative;
+    right: 0;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    transition: width 0.3s;
+}
+
+.st-menu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    visibility: hidden;
+    max-width: 400px;
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    box-shadow: -1px 1px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Effect 11: Scale and rotate pusher */
+
+.st-effect.st-container {
+    -webkit-perspective: 1500px;
+    perspective: 1500px;
+}
+
+
+
+.st-effect.st-menu {
+    opacity: 1;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+}
+
+.st-effect.st-menu-open .st-effect.st-menu {
+    visibility: visible;
+    -webkit-transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.st-effect.st-menu::after {
+    display: none;
+}
+
+.tasks-sections-wrapper{
+    height: calc(100% - 105px);
+}
+.st-pusher .tasks-sections-wrapper > perfect-scrollbar {
+    height: 100%
+}
+.st-menu .tasks-sections-wrapper > perfect-scrollbar {
+    height: 100%;
+}
+
+.list-title {
+    padding: 15px;
+    padding-bottom: 0;
+}
+
+.list-title .list-icon-wrapper {
+    font-size: 1.2rem;
+}
+
+.list-title .list-name {
+    font-size: 1.2rem;
+    vertical-align: middle;
+}
+
+.task-section-title.last {
+    padding-bottom: 15px;
+}
+
+.no-tasks {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.no-tasks .twf {
+    color: #ededed;
+    font-size: 150px;
+    height: 135px;
+}
+
+.no-tasks .load-completed {
+    text-decoration: none;
+    margin-top: 20px;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 767px) {
+    .st-pusher > perfect-scrollbar {
+        height: calc(100% - 90px);
+    }
+    .list-title {
+        padding-top: 10px;
+    }
+}

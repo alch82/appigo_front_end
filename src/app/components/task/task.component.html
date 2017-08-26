@@ -1,0 +1,60 @@
+<context-menu #taskMoreOptionsMenu>
+  <div *ngIf="task.identifier != null">
+    <template contextMenuItem (execute)="editTaskSelected()">
+      Edit Task
+    </template>
+    <template *ngIf="task.isChecklist || task.isProject" contextMenuItem divider="true"></template>
+    <template *ngIf="task.isProject" contextMenuItem (execute)="selectTask()">
+      View Subtasks
+    </template>
+    <template *ngIf="task.isChecklist" contextMenuItem (execute)="selectTask()">
+      View Items
+    </template>
+    <template contextMenuItem divider="true"></template>
+    <!-- <template *ngIf="!task.isProject && !task.isSubtask" contextMenuItem (execute)="changeToProject()">
+      Change To Project
+    </template>
+    <template *ngIf="!task.isChecklist" contextMenuItem (execute)="changeToChecklist()">
+      Change To Checklist
+    </template>
+    <template *ngIf="task.isChecklist || task.isProject" contextMenuItem (execute)="changeToRegularTask()">
+      Change To Regular Task
+    </template> -->
+    <template contextMenuItem divider="true"></template>
+    <template contextMenuItem (execute)="showDeleteTaskConfirmationModal()">
+      Delete Task
+    </template>
+  </div>
+</context-menu>
+
+<li class="task-item" [ngClass]="{editing: task.editing, creating:currentCompletionState == TaskCompletionState.Creating}" [contextMenu]='taskMoreOptionsMenu' [contextMenuSubject]='task'>
+    <div
+            class="task-check"
+            (click)="completeTask()"
+            [ngClass]="{
+            'check-animation': currentCompletionState == TaskCompletionState.Initial,
+            'grace-animation': currentCompletionState == TaskCompletionState.GracePeriod,
+            'saving-animation': currentCompletionState == TaskCompletionState.Saving,
+            'check': currentCompletionState < TaskCompletionState.Error,
+            'error': currentCompletionState == TaskCompletionState.Error,
+            'complete' : currentCompletionState == TaskCompletionState.Complete
+            }"
+    >
+        <i class="checkmark draw"></i>
+        <svg class="progress" width="20" height="20">
+            <circle class="back"
+                    cx="10" cy="10" r="8" fill="none" />
+            <circle class="bar" #circleBar
+                    cx="10" cy="10" r="8" fill="none" />
+        </svg>
+    </div>
+    <div class="task-data"
+         (click)="selectTask()"
+         (dblclick)="editTaskSelected()"
+    >
+        <div class="task-name">{{task.name}}</div>
+        <div *ngIf="task.hasDueDate" class="task-date">{{task.dueDate.getTime() | date:'EEE MMM dd'}}</div>
+    </div>
+    <span *ngIf="task.isProject || task.isChecklist">{{subtaskCount}}</span>
+    <a href="#" (click)="onContextMenu($event)" class="fa fa-ellipsis-h btn-task-menu" tabindex="-1" #taskEl></a>
+</li>

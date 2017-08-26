@@ -1,0 +1,68 @@
+<nav class="navbar navbar-inverse navbar-full navbar-fixed-top">
+    <div class="">
+        <div ngbDropdown class="float-left">
+            <button class="btn btn-outline-primary" id="dropdownMenu1" ngbDropdownToggle>
+                <i class="twf twf-todo-checkmark"></i>
+                {{displayName}}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <a class="dropdown-item" (click)="syncNow()">Sync Now</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" (click)="showSettings()">Settings</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="http://support.appigo.com/support/home" target="_blank">Get Support</a>
+                <a class="dropdown-item" href="http://www.appigo.com/blog/" target="_blank">Tips, Tricks, and News</a>
+                <a class="dropdown-item" href="#">Love Todo Cloud?</a>
+                <a class="dropdown-item" href="#">Share With Friends</a>
+                <div class="dropdown-divider"></div>
+                <span class="dropdown-item no-hover">
+                    <a href="#" class="app-link"><img src="./assets/img/favicon-76.png" alt="App 1"></a>
+                    <a href="#" class="app-link"><img src="./assets/img/favicon-76.png" alt="App 2"></a>
+                    <a href="#" class="app-link"><img src="./assets/img/favicon-76.png" alt="App 3"></a>
+                </span>
+                <div class="dropdown-divider"></div>
+                <a (click)='logout()' class="dropdown-item">Sign Out</a>
+                <div class="dropdown-divider"></div>
+                <span class="dropdown-item no-hover"><small class="text-muted">Todo Cloud v.{{appVersion}}</small></span>
+            </div>
+        </div>
+        <div class="float-right">
+            <button class="navbar-toggler hidden-md-up" (click)="clickToggleSidebar()" type="button" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="nav navbar-nav hidden-sm-down">
+                <li class="nav-item">
+                    <a class="nav-link"><i class="twf twf-search"></i></a>
+                </li>
+            </ul>
+        </div>
+        <template #confirmationResultModalContent let-c="close" let-d="dismiss">
+            <div class="modal-header">
+                <h4 class="modal-title">{{confirmationEmailResultTitle}}</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>{{confirmationEmailResultMessage}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="c()">Close</button>
+            </div>
+        </template>
+        <div *ngIf="confirmationEmail" class="nav-bar-item float-left">
+            <template #confirmationPopContent>
+                <i (click)="alertNotificationPopup.close()" class="fa fa-times btn-close-popover"></i>
+                <p class="popover-content-inner">Confirm your email address to access more features. We've sent a confirmation email to: {{confirmationEmail}}</p>
+                <div class="emailResendPopoverButtons">
+                    <a (click)="resendEmailConfirmation(alertNotificationPopup)" class="btn-default btn-green btn-size-xs" tabindex="0">Resend</a>
+                    <a (click)="notImplemented()" class="btn-default btn-info btn-size-xs" tabindex="0">Change email</a>
+                </div>
+            </template>
+            <span placement="bottom" [ngbPopover]="confirmationPopContent" #alertNotificationPopup="ngbPopover">
+                <i class="twf twf-alert-bell"></i>
+            </span>
+        </div>
+        <div class="dev-notice">NOTICE: THIS IS BETA SOFTWARE.</div>
+    </div>
+</nav>

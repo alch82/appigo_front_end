@@ -1,0 +1,28 @@
+.decorator-text {
+    font-size: 0.66rem;
+    color : gray;
+}
+
+.picker {
+    overflow-y: scroll;
+    height : 100px;
+    width: 50%;
+    float: left;
+}
+
+.picker .row.selected {
+    font-weight: 400;
+    background-color: rgba(240, 240, 240, 0.1) !important;
+}
+
+.row.d-block {
+    text-align: center;
+}
+
+.row.d-block .d-flex {
+    justify-content: space-between;
+}
+
+.left-label > * {
+    display: block;
+}

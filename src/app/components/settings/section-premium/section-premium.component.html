@@ -1,0 +1,120 @@
+<context-menu #paymentMoreOptionsMenu>
+    <template contextMenuItem (execute)="showPurchaseHistory()">
+        View purchase history...
+    </template>
+    <template *ngIf="subscription.type > 0 && subscription.paymentSystem == 'stripe'" 
+        contextMenuItem 
+        (execute)="downgradeShowConfirmation()"
+    >
+        Downgrade to a free account...
+    </template>
+    <template *ngIf="subscription.type > 0 && 
+                     subscription.paymentSystem == 'googleplay' || 
+                     subscription.paymentSystem == 'apple_iap'" 
+        contextMenuItem 
+        (execute)="showSubscriptionManagementHelp()"
+    >
+        Manage your subscription...
+    </template>
+</context-menu>
+
+<div *ngIf="loading">
+    <label>Loading...</label>
+</div>
+<article *ngIf="!loading && !showPaymentHistory && !showConfirmation">
+    <header>
+        <div class="title-wrapper" *ngIf="subscription.isActive">
+            <div>
+                <h4 *ngIf="subscription.paymentSystem != 'vip'">You're all set with premium features!</h4>
+                <h4 *ngIf="subscription.paymentSystem == 'vip'">Thanks for being a VIP!</h4>
+                <i (click)="onContextMenu($event)" class="fa fa-ellipsis-h btn-task-menu clickable"></i>
+            </div>
+            <p>Your premium account will automatically renew on
+                <strong>{{subscription.expirationDate | date:'EEE MMM dd, yyyy'}}</strong><span
+                >{{paymentSystemMessageSuffix}}</span></p>
+            <p class="info info-small" *ngIf="subscription.paymentSystem == 'vip'">
+                You are qualified for a free account through our friends and family program. When it's time to renew your account, we'll send and email
+                to verify your address. Please click the verify link in the email and you'll get another year of Todo Cloud premium features on us!
+            </p>
+        </div>
+        <div class="title-wrapper" *ngIf="subscription.isCanceled || subscription.isExpired">
+            <i (click)="onContextMenu($event)" class="fa fa-ellipsis-h btn-task-menu"></i>
+            <h4>Upgrade to a premium account</h4>
+            <p>Your premium features {{subscription.isExpired ? 'expired' : 'will expire'}} on <strong>{{subscription.expirationDate | date:'EEE MMM dd, yyyy'}}</strong></p>
+        </div>
+    </header>
+    <div class="premium-info">
+        <perfect-scrollbar fxFlex>
+            <div class="w-100">
+                <h5>TO-DO:</h5>
+                <p class="info">Place information about premium account here.</p>
+
+                <h5>Penatibus lorem irure</h5>
+                <p class="info">Molestie vero molestie? Orci, vitae litora.</p>
+
+                <h5>Exercitationem</h5>
+                <p class="info">Exercitationem, aliqua aliquet rerum pariatur sagittis porttitor nostra quibusdam.</p>
+
+                <h5>Dictum</h5>
+                <p class="info">Non saepe morbi quae curabitur! Dictum, mollis natoque phasellus.</p>
+
+                <h5>Architecto</h5>
+                <p class="info">Laborum egestas minim, architecto mus optio alias hymenaeos occaecati.</p>
+
+                <h5>Laoreet id provident!</h5>
+                <p class="info">Animi fuga, quasi minim lacinia. Laoreet id provident! Iaculis.</p>
+            </div>
+        </perfect-scrollbar>
+    </div>
+    <footer *ngIf="subscription.isCanceled || subscription.isExpired" class="buttons">
+        <button class="btn-default btn-size-sm btn-orange" (click)="selectPayment(PaymentType.Monthly)">{{subscription.pricing.monthly | currency:'USD':true}} per month</button>
+        <button class="btn-default btn-size-sm btn-info" (click)="selectPayment(PaymentType.Yearly)">{{subscription.pricing.yearly | currency:'USD':true}} per year</button>
+    </footer>
+</article>
+<article *ngIf="!loading && showPaymentHistory && !showConfirmation">
+    <header>
+        <div class="title-wrapper no-border">
+            <h4>Your Purchase History</h4>
+        </div>
+    </header>
+    <div *ngIf="loadingPaymentHistory">
+        Loading payment history...
+    </div>
+    <div class="purchase-history-wrapper" *ngIf="!loadingPaymentHistory">
+        <table class="table table-header">
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Details</th>
+            </tr>
+        </table>
+        <perfect-scrollbar fxFlex>
+            <table class="table w-100">
+                <tr *ngFor="let payment of payments">
+                    <td>{{payment.history.date | date:'EEE MMM dd, yyyy'}}</td>
+                    <td>{{payment.history.typeDescription}}</td>
+                    <td>
+                        <span class="preloader-xs" *ngIf="payment.saving"></span>
+                        <span *ngIf="payment.sent">Receipt sent</span>
+                        <span *ngIf="!payment.saving && payment.history.service == 'stripe' && !payment.sent" class="link" (click)='sendPaymentReceipt(payment)'>Send receipt...</span>
+                        <span *ngIf="!payment.saving && payment.history.service == 'apple_iap'">Apple In-app purchase</span>
+                        <span *ngIf="!payment.saving && payment.history.service == 'googleplay'">GooglePlay purchase</span>
+                    </td>
+                </tr>
+            </table>
+        </perfect-scrollbar>
+    </div>
+    <button class="btn-default btn-size-xs btn-info pull-right" (click)="hidePurchaseHistory()">Done</button>
+</article>
+<article *ngIf="showConfirmation">
+    <header>
+        <div class="title-wrapper">
+            <h4>Downgrade to a free account?</h4>
+        </div>
+    </header>
+    <p>Premium features will continue to work until <strong>{{subscription.expirationDate | date:'EEE MMM dd, yyyy'}}</strong>.</p>
+    <footer  class="buttons">
+        <button class="btn-default btn-size-sm btn-orange" (click)="showConfirmation = false">Cancel</button>
+        <button class="btn-default btn-size-sm btn-info" (click)="downgradeToFree()">Downgrade</button>
+    </footer>
+</article>

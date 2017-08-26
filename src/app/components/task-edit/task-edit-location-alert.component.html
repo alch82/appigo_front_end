@@ -1,0 +1,24 @@
+<input class="form-control"
+        type="text"
+        autocorrect="off" 
+        autocapitalize="off" 
+        spellcheck="off"
+        [(ngModel)]="currentAddress"
+        placeholder="Search for address"
+        #locationSearchInput />
+<div class="location-alert-switch" [ngModel]="direction" ngbRadioGroup (ngModelChange)="selectAlertType($event)">
+    <label class="btn btn-default btn-white btn-size-xs"><input type="radio" [value]="TaskLocationAlertType.Arriving"> <span>Arriving</span></label>
+    <label class="btn btn-default btn-white btn-size-xs"><input type="radio" [value]="TaskLocationAlertType.Leaving"> <span>Departing</span></label>
+</div>
+<agm-map
+        [latitude]='latitude'
+        [longitude]='longitude'
+        [zoom]='mapZoomLevel'
+        [scrollwheel]="false"
+        (mapClick)='mapClick($event)'>
+    <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+</agm-map>
+<div class="btn-group-right">
+    <button type="button" class="btn btn-default btn-info btn-size-xs" (click)="cancel()">Close</button>
+    <button type="button" class="btn btn-default btn-info btn-size-xs" (click)="save()">OK</button>
+</div>

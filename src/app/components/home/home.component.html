@@ -1,0 +1,31 @@
+<div class="main-wrapper" [ngClass]="{'open-menu' : showTaskEdit}">
+    <navigation-bar
+        (toggleSidebar)="onToggleSidebar()"
+    ></navigation-bar>
+    <div *ngIf="systemMessage && systemMessage.message && !dismissSystemMessage" class="system-message">
+        {{systemMessage.message}}
+        <a *ngIf="systemMessage.learnMoreUrl"
+            style="margin-left: 5px;"
+            href="{{systemMessage.learnMoreLink}}"
+            target="_blank"
+            >
+            Learn More
+        </a>
+        <i class="fa fa-fw fa-times clickable" (click)="dismissSystemMessage = true"></i>
+    </div>
+    <div class="main-container" [ngClass]="{'open-calendar-filter' : showCalendarDateFilter }" #mainContainer>
+        <aside [ngClass]="{'open' : openSidebar}">
+            <lists (changeStateListsMenu)="changeStateListsMenu($event)"
+            ></lists>
+            <main-calendar class="d-block"
+            (dateFilterShow)="showCalendarDateFilter = $event"
+            ></main-calendar>
+        </aside>
+        <tasks [taskEditorIsOpen]="showTaskEdit"></tasks>
+        <task-edit class="task-edit-container st-menu st-effect"
+               [taskEditorIsOpen]="showTaskEdit"
+        ></task-edit>
+    </div>
+</div>
+
+<template ngbModalContainer></template>

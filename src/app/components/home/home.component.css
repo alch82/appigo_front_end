@@ -1,0 +1,105 @@
+:host {
+    display: block;
+}
+
+.main-container {
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+@media (max-width: 576px) {
+    .main-container  {
+        margin-top: 0;
+    }
+}
+
+aside {
+    background-color: #f5f5f5;
+    padding:0;
+    width:280px;
+}
+
+.no-visible {
+    position: absolute;
+    text-indent: -99999px;
+    left: -100px;
+    top: -100px;
+}
+
+.system-message {
+    width: 100%;
+    padding-left : 16px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background-color: orange;
+    color : white;
+}
+
+nav.st-menu {
+    padding: 0;
+    box-shadow: -2px 0 6px -4px rgba(0,0,0,0.4);
+    /*width: 360px;*/
+    z-index: 20;
+}
+
+.task-edit-container {
+    transform: translate(101%, 0);
+}
+
+.open-menu .task-edit-container {
+    transform: translate(0, 0);
+    background-color: #f5f5f5;
+}
+.open-menu navigation-bar {
+    display: block;
+    max-width: calc(100% - 280px);
+}
+
+tasks {
+    width: calc(100% - 280px);
+}
+
+.open-menu tasks {
+    width: calc(100% - 280px - 280px);
+}
+
+task-edit {
+    width: 280px;
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+    .open-menu navigation-bar {
+        max-width: calc(100% - 280px);
+    }
+
+}
+@media (max-width: 767px) {
+    .open-menu navigation-bar {
+        max-width:100%;
+    }
+
+    aside {
+        transform: translate(-100%, 0);
+        position: absolute;
+        top: 0;
+        z-index: 40;
+        margin-top: 56px;
+        height: calc(100vh - 56px);
+    }
+
+    aside.open {
+        transform: translate(0, 0);
+    }
+
+    aside,
+    tasks,
+    .open-menu tasks,
+    task-edit {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575px) {
+
+}

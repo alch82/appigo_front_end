@@ -1,0 +1,8 @@
+<perfect-scrollbar class="picker" *ngIf="showPicker">
+    <div *ngFor="let offset of pickerOffsets"
+        [ngClass]="{selected: _notification.triggerOffset == offset}"
+    >
+        <span (click)="onClick(offset)">{{labelForOffset(offset)}}</span>
+    </div>
+</perfect-scrollbar>
+<div *ngIf="!showPicker">{{labelForOffset(_notification.triggerOffset)}}</div>
